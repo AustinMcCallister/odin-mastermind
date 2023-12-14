@@ -27,7 +27,6 @@ module Mastermind
         until (selection = gets.chomp).match?(/^[1-6]{4}$/)
           print 'Invalid entry. Enter a four digit code with numbers 1-6 (eg. 1122): '
         end
-
         selection = selection.split('').map(&:to_i)
         Code.new(first: selection[0], second: selection[1], third: selection[2], fourth: selection[3])
       end
@@ -43,11 +42,7 @@ module Mastermind
       end
 
       def eliminate_wrong_codes(guess, code_set)
-        code_set.each do |code|
-          next if same_feedback?(guess, code)
-
-          code_set.delete(code)
-        end
+        code_set.each { |code| code_set.delete(code) unless same_feedback?(guess, code) }
       end
 
       def same_feedback?(guess, code)
